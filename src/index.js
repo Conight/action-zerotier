@@ -17,15 +17,15 @@ export async function run () {
     } else {
       await execShellCommand(optionalSudoPrefix + 'apt-get update')
       await execShellCommand(optionalSudoPrefix + 'apt-get install -y curl')
-      await execShellCommand(`'curl -s https://install.zerotier.com | ${optionalSudoPrefix} bash'`)
+      await execShellCommand(`curl -s https://install.zerotier.com | ${optionalSudoPrefix} bash`)
     }
     core.debug('Installed dependencies successfully')
 
     core.debug('Connect to zerotier network')
-    await execShellCommand('zerotier-cli join 8286ac0e474774ce')
+    await execShellCommand(optionalSudoPrefix + 'zerotier-cli join 8286ac0e474774ce')
     console.debug('Connect to zerotier network successfully, please configure')
 
-    const zerotierStatus = await execShellCommand(`zerotier-cli status`)
+    const zerotierStatus = await execShellCommand(optionalSudoPrefix + `zerotier-cli status`)
 
     console.debug('Entering main loop')
     const continuePath = process.platform !== 'win32' ? '/continue' : 'C:/msys64/continue'
