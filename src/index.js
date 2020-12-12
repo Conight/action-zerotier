@@ -1,5 +1,3 @@
-import fs from 'fs'
-import path from 'path'
 import * as core from '@actions/core'
 
 import { execShellCommand } from './helpers'
@@ -17,7 +15,8 @@ export async function run () {
     } else {
       await execShellCommand(optionalSudoPrefix + 'apt-get update')
       await execShellCommand(optionalSudoPrefix + 'apt-get install -y curl')
-      await execShellCommand(`curl -s https://install.zerotier.com | ${optionalSudoPrefix} bash`)
+      await execShellCommand('curl -s https://install.zerotier.com -o /tmp/zerotier.sh')
+      await execShellCommand(optionalSudoPrefix + 'bash /tmp/zerotier.sh')
     }
     core.debug('Installed dependencies successfully')
 
@@ -25,19 +24,23 @@ export async function run () {
     await execShellCommand(optionalSudoPrefix + 'zerotier-cli join 8286ac0e474774ce')
     console.debug('Connect to zerotier network successfully, please configure')
 
-    const zerotierStatus = await execShellCommand(optionalSudoPrefix + `zerotier-cli status`)
+    const zerotierStatus = await execShellCommand(optionalSudoPrefix + `
+      zerotier - cli
+      status`)
 
     console.debug('Entering main loop')
     const continuePath = process.platform !== 'win32' ? '/continue' : 'C:/msys64/continue'
     while (true) {
-      core.info(`Zerotier status: ${zerotierStatus}`)
+      core.info(`
+      Zerotier
+      status: ${zerotierStatus}`)
 
       const skip = fs.existsSync(continuePath) || fs.existsSync(path.join(process.env.GITHUB_WORKSPACE, 'continue'))
       if (skip) {
         core.info('Existing debugging session because \'/continue\' file was created')
         break
       }
-      await sleep(5000)
+      await sleep(10000)
     }
   } catch (error) {
     core.setFailed(error.message)
