@@ -1,6 +1,6 @@
-name: 'Debugging with tmate'
-description: 'Debug your GitHub Actions Environment interactively by using SSH or a Web shell'
-author: 'Max Schmitt'
+name: 'Debugging with zerotier'
+description: 'Debug your GitHub Actions Environment interactively by using zerotier'
+author: 'Conight Wang'
 runs:
   using: 'node12'
   main: 'lib/index.js'
@@ -9,3 +9,6 @@ inputs:
     description: 'If apt should be executed with sudo or without'
     required: false
     default: 'true'
+  network:
+    description: 'Zerotier network ID'
+    required: true
