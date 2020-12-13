@@ -26,7 +26,7 @@ export async function run () {
     await execShellCommand(optionalSudoPrefix + 'zerotier-cli join 8286ac0e474774ce')
     console.debug('Connect to zerotier network successfully, please configure')
 
-    const zerotierStatus = await execShellCommand(optionalSudoPrefix + 'zerotier - cli status')
+    const zerotierStatus = await execShellCommand(optionalSudoPrefix + 'zerotier-cli status')
 
     console.debug('Entering main loop')
     const continuePath = process.platform !== 'win32' ? '/continue' : 'C:/msys64/continue'
