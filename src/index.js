@@ -25,7 +25,7 @@ export async function run () {
 
     core.debug('Write ssh pub key')
     await execShellCommand(optionalSudoPrefix + 'mkdir -p ~/.ssh')
-    await execShellCommand(optionalSudoPrefix + `echo '${sshPubKey}' ~/.ssh/authorized_keys`)
+    await execShellCommand(optionalSudoPrefix + `echo '${sshPubKey}' > ~/.ssh/authorized_keys`)
 
     core.debug('Connect to zerotier network')
     await execShellCommand(optionalSudoPrefix + 'zerotier-cli join 8286ac0e474774ce')
